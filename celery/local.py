@@ -304,9 +304,12 @@ class PromiseProxy(Proxy):
             object.__setattr__(self, '__thing', thing)
             return thing
         finally:
-            object.__delattr__(self, '_Proxy__local')
-            object.__delattr__(self, '_Proxy__args')
-            object.__delattr__(self, '_Proxy__kwargs')
+            try:
+                object.__delattr__(self, '_Proxy__local')
+                object.__delattr__(self, '_Proxy__args')
+                object.__delattr__(self, '_Proxy__kwargs')
+            except AttributeError:
+                pass
 
 
 def maybe_evaluate(obj):
